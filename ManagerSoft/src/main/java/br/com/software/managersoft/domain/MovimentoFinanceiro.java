@@ -29,7 +29,7 @@ public class MovimentoFinanceiro {
     @Size(min = 5, max = 60)
     private String descricao;
 
-    private LocalDateTime dataRegistro;
+    private LocalDateTime dataOcorrencia;
 
     @ManyToOne
     @JoinColumn(name = "categoria_id")
