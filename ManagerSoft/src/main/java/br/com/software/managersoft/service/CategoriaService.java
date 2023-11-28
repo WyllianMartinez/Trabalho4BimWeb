@@ -1,10 +1,13 @@
 package br.com.software.managersoft.service;
 
 import br.com.software.managersoft.domain.Categoria;
+import br.com.software.managersoft.domain.TipoCategoriaEnum;
 import br.com.software.managersoft.repository.CategoriaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -18,6 +21,8 @@ public class CategoriaService {
     }
 
     public void edit(Categoria categoria){
+        Categoria categoriaFind = findById(categoria.getId());
+        categoria.setTipoCategoria(categoriaFind.getTipoCategoria());
         categoriaRepository.saveAndFlush(categoria);
     }
 
@@ -35,10 +40,22 @@ public class CategoriaService {
 
     public List<Categoria> listByFilter(String descricao) {
         if (descricao.isEmpty()) {
-            return categoriaRepository.findAll();
+            return categoriaRepository.findAllByOrderByIdAsc();
         } else {
             return categoriaRepository.findAllByDescricaoContainingIgnoreCaseOrderByIdAsc(descricao);
         }
+    }
+
+    public List<String> validate(Categoria categoria) {
+
+        List<String> msg = new ArrayList<>();
+
+        if (categoria.getId() == null) {
+            if (categoria.getTipoCategoria() != TipoCategoriaEnum.D && categoria.getTipoCategoria() != TipoCategoriaEnum.R) {
+                msg.add("Informe o tipo da categoria");
+            }
+        }
+        return msg;
     }
 
 }
