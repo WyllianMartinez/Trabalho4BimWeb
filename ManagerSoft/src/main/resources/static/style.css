@@ -8,10 +8,8 @@ a.navbar-brand {
 }
 
 .container-fluid{
-    
 
 }
-
 
 .navbar-nav .nav-link {
     color: white;
@@ -54,8 +52,6 @@ a.navbar-brand {
     margin: 0;
     background: radial-gradient(midnightblue, #0e0e49);
 }
-
-/*registros*/
 
 .container-title{
     margin: 50px;

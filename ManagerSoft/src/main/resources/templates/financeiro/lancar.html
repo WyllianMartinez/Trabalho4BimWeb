@@ -38,60 +38,77 @@
 </nav>
 
 
-<div class="container mt-5 ">
-    <div class="card">
-        <div class="card-header text-center">
-            <h1 class="h1-title">Registro de Movimento Financeiro</h1>
-        </div>
-        <div class="card-body">
-
-            <div class="input-group flex-nowrap">
-
-                <div class="input-group flex-nowrap mb-3">
-                    <span class="input-group-text" id="addon-wrapping">Descrição:</span>
-                    <input type="text" class="form-control" aria-label="Username" aria-describedby="addon-wrapping">
-                </div>
-
-                <div class="input-data input-group flex-nowrap  mb-3">
-                    <span class="input-group-text" id="datepicker-addon">Data Ocorrencia:</span>
-                    <input type="date" name="dataFim" class="form-control">
-                </div>
+<div class="container mt-5">
+    <div class="row" th:if="${not #lists.isEmpty(msg)}">
+        <div th:each="msg : ${msg}">
+            <div class="alert alert-warning" role="alert" th:text="${msg}">
+                Mensagem de Alerta
             </div>
-
-
-            <div class="input-group flex-nowrap md-3">
-
-                <div class="input-group flex-nowrap">
-                    <select class="form-select mb-3" aria-label="Default select example">
-                        <option selected>Selecione a Categoria</option>
-                    </select>
-                </div>
-
-            </div>
-
-
-            <div class="input-group mb-3">
-                <span class="input-group-text">Valor:</span>
-                <span class="input-group-text">$</span>
-                <input type="text" class="form-control" aria-label="Dollar amount (with dot and two decimal places)"
-                       id="valorReceita">
-            </div>
-
-
-            <div class="input-group mb-5 d-flex justify-content-center">
-                <div class="btnCancelar flex-grow-1 text-center mx-2">
-                    <button type="button" class="btn btn-danger btn-lg w-100">Cancelar</button>
-                </div>
-                <div class="btnSalvar flex-grow-1 text-center mx-2">
-                    <button type="button" class="btn btn-success btn-lg w-100">Salvar</button>
-                </div>
-            </div>
-
-
         </div>
     </div>
 </div>
 
 
+<form class="card-body" method="POST" action="/financeiro" th:object="${movimentoFinanceiro}">
+    <div class="container mt-5 ">
+        <div class="card">
+            <div class="card-header text-center">
+                <h1 class="h1-title">Registro de Movimento Financeiro</h1>
+            </div>
+            <div class="card-body">
+
+                <input type="hidden" th:field="*{id}" />
+
+                <div class="input-group flex-nowrap">
+
+                    <div class="input-group flex-nowrap mb-3">
+                        <span class="input-group-text" id="addon-wrapping">Descrição:</span>
+                        <input type="text" class="form-control" name="descricao"
+                               th:value="${movimentoFinanceiro.descricao}" aria-describedby="addon-wrapping">
+                    </div>
+
+                    <div class="input-data input-group flex-nowrap mb-3 ms-3">
+                        <span class="input-group-text" id="datepicker-addon">Data Ocorrencia:</span>
+                        <input type="date" th:value="${movimentoFinanceiro.dataOcorrencia}" name="dataOcorrencia"
+                               class="form-control">
+                    </div>
+                </div>
+
+
+                <div class="input-group flex-nowrap md-3">
+                    <div class="input-group flex-nowrap">
+                        <select th:disabled="${movimentoFinanceiro.id != null}" data-bs-toggle="tooltip"
+                                data-bs-placement="top" title="Não é possível a categoria do movimento financeiro"
+                                class="form-select mb-3" th:field="*{categoria}" aria-label="Default select example">
+                            <option value="" selected>Selecione a Categoria</option>
+                            <option th:each="categoria : ${categorias}" th:value="${categoria.id}"
+                                    th:text="${categoria.descricao} + ' (' + ${categoria.tipoCategoria.tipo} + ')'"></option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="input-group mb-3">
+                    <span class="input-group-text">Valor:</span>
+                    <span class="input-group-text">R$</span>
+                    <input type="text" th:value="${movimentoFinanceiro.valor}" class="form-control" name="valor"
+                           id="valor">
+                </div>
+
+
+                <div class="input-group mb-5 d-flex justify-content-center">
+                    <div class="btnCancelar flex-grow-1 text-center mx-2">
+                        <button type="submit" onclick="window.history.go(-1); return false;"
+                                class="btn btn-danger btn-lg w-100">Cancelar
+                        </button>
+                    </div>
+                    <div class="btnSalvar flex-grow-1 text-center mx-2">
+                        <button type="submit" class="btn btn-success btn-lg w-100">Salvar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
 </body>
 </html>

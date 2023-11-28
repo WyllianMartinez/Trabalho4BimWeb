@@ -1,12 +1,10 @@
 package br.com.software.managersoft.controllers;
+
 import br.com.software.managersoft.domain.Categoria;
 import br.com.software.managersoft.domain.TipoCategoriaEnum;
 import br.com.software.managersoft.service.CategoriaService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -28,7 +26,7 @@ public class CategoriaController {
     private CategoriaService categoriaService;
 
     @GetMapping
-    public ModelAndView listaCategorias(ModelMap model){
+    public ModelAndView listaCategorias(ModelMap model) {
         ModelAndView modelAndView = new ModelAndView("categoria/listar");
 
         if (model.containsAttribute("categorias"))
@@ -42,7 +40,7 @@ public class CategoriaController {
 
 
     @GetMapping(path = "/filtrar")
-    public String filtrarProfessores(@RequestParam("descricao") String descricao, RedirectAttributes redirectAttributes){
+    public String filtrarProfessores(@RequestParam("descricao") String descricao, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("categorias",
                 categoriaService.listByFilter(descricao));
         return "redirect:/categoria";
@@ -50,7 +48,7 @@ public class CategoriaController {
 
 
     @GetMapping(path = "/cadastrar")
-    public ModelAndView retornaNovoProfessor(ModelMap model) {
+    public ModelAndView retornaNovaCategoria(ModelMap model) {
         ModelAndView modelAndView = new ModelAndView("categoria/cadastrar");
 
         modelAndView.addObject("tiposCategoria", TipoCategoriaEnum.values());
@@ -63,17 +61,15 @@ public class CategoriaController {
             modelAndView.addObject("msg", new ArrayList<String>());
         }
 
-
         return modelAndView;
     }
 
     @PostMapping
-    public String salvarCategoria(@Valid Categoria categoria,
-                                  BindingResult bindingResult,
-                                  RedirectAttributes redirectAttributes){
+    public String salvarCategoria(@Valid Categoria categoria, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
         List<String> msg = new ArrayList<>();
 
-        msg.addAll(categoriaService.validate(categoria));
+        msg.addAll(categoriaService.validar(categoria));
 
         if (bindingResult.hasErrors() || !msg.isEmpty()) {
             redirectAttributes.addFlashAttribute("categoria", categoria);
@@ -88,7 +84,7 @@ public class CategoriaController {
             if (categoria.getId() != null) {
                 return "redirect:/categoria/editar/" + categoria.getId();
             } else {
-                return "redirect:/categoria/cadastrar";
+                return "redirect:/categoria/cadastrar/";
             }
         }
 
@@ -102,14 +98,14 @@ public class CategoriaController {
     }
 
     @GetMapping(path = "/deletar/{id}")
-    public String deletarCategoria(@PathVariable("id") Long id){
+    public String deletarCategoria(@PathVariable("id") Long id) {
         categoriaService.delete(id);
         return "redirect:/categoria";
     }
 
 
     @GetMapping(path = "/editar/{id}")
-    public ModelAndView editarCategoria(@PathVariable("id") Long id){
+    public ModelAndView editarCategoria(@PathVariable("id") Long id) {
         ModelAndView modelAndView = new ModelAndView("categoria/cadastrar");
 
         modelAndView.addObject("categoria", categoriaService.findById(id));
@@ -117,7 +113,6 @@ public class CategoriaController {
 
         return modelAndView;
     }
-
 
 
 }

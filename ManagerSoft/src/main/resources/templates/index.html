@@ -35,10 +35,45 @@
 </nav>
 
 
-<div class="container mt-5 ">
+<div class="container mb-5 mt-5">
+    <form action="/financeiro/filtrar" method="GET">
+        <div class="row">
+            <div class="col">
+                <div class="card text-bg-success mb-3" style="max-width: 18rem;">
+                    <div class="card-header text-center">Receitas</div>
+                    <div class="card-body">
+                        <h5 class="card-title text-center">R$ 100,00</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card text-bg-danger mb-3" style="max-width: 18rem;">
+                    <div class="card-header text-center">Despesas</div>
+                    <div class="card-body">
+                        <h5 class="card-title text-center">R$ 50,00</h5>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="card text-bg-primary mb-3" style="max-width: 18rem;">
+                    <div class="card-header text-center">Saldo</div>
+                    <div class="card-body">
+                        <h5 class="card-title text-center">R$ 50,00</h5>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+
+<div class="container mt-5">
     <div class="card">
         <div class="card-header text-center">
-            <h1 class="h1-title">Lista de Receita/Despesa</h1>
+            <h2 class="h2-title">Últimos 10 Lançamentos</h2>
         </div>
         <div class="card-body">
 
@@ -46,22 +81,23 @@
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Usuário</th>
-                    <th scope="col">Despesa</th>
-                    <th scope="col">Receita</th>
-                    <th scope="col">Saldo</th>
+                    <th scope="col">Descrição</th>
+                    <th scope="col">Categoria</th>
+                    <th scope="col">Tipo</th>
+                    <th scope="col">Valor</th>
+                    <th scope="col">Data Ocorrência</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <th scope="row">1</th>
-                    <td>usuario</td>
-                    <td>despesa</td>
-                    <td>@receita</td>
-                    <td>saldo</td>
+                <tr th:each="movimentoFinanceiro : ${movimentoFinanceiros}">
+                    <th th:text="${movimentoFinanceiro.id}" scope="row">1</th>
+                    <td th:text="${movimentoFinanceiro.descricao}">Teste</td>
+                    <td th:text="${movimentoFinanceiro.categoria.descricao}">Combustíveis e Lubrificantes</td>
+                    <td th:text="${movimentoFinanceiro.categoria.tipoCategoria.tipo}">Despesa</td>
+                    <td th:text="${movimentoFinanceiro.valor}">10,00</td>
+                    <td th:text="${#dates.format(movimentoFinanceiro.dataOcorrencia, 'dd/MM/yyyy')}">10/01/2023</td>
                 </tr>
                 </tbody>
-
             </table>
         </div>
     </div>
