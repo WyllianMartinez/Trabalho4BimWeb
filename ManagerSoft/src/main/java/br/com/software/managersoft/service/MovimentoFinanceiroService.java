@@ -1,6 +1,7 @@
 package br.com.software.managersoft.service;
 
 import br.com.software.managersoft.domain.MovimentoFinanceiro;
+import br.com.software.managersoft.domain.SaldoDTO;
 import br.com.software.managersoft.domain.TipoCategoriaEnum;
 import br.com.software.managersoft.repository.MovimentoFinanceiroRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -101,4 +102,20 @@ public class MovimentoFinanceiroService {
         return msg;
     }
 
+    public SaldoDTO getSaldos() {
+        double entradas = 0.0;
+        double saidas = 0.0;
+
+        if(movimentoFinanceiroRepository.getEntradas() != null) {
+            entradas = movimentoFinanceiroRepository.getEntradas();
+        }
+
+        if (movimentoFinanceiroRepository.getSaidas() != null){
+            saidas = movimentoFinanceiroRepository.getSaidas();
+        }
+
+        double saldo = entradas - saidas;
+
+        return new SaldoDTO(entradas, saidas, saldo);
+    }
 }

@@ -98,9 +98,20 @@ public class CategoriaController {
     }
 
     @GetMapping(path = "/deletar/{id}")
-    public String deletarCategoria(@PathVariable("id") Long id) {
-        categoriaService.delete(id);
-        return "redirect:/categoria";
+    public String deletarCategoria(@PathVariable("id") Long id, RedirectAttributes redirectAttributes) {
+
+        List<String> msg = new ArrayList<>(categoriaService.validaRemocao(id));
+
+        if (!msg.isEmpty()){
+
+            redirectAttributes.addFlashAttribute("msg", msg);
+
+            return "redirect:/categoria";
+        } else {
+            categoriaService.delete(id);
+            return "redirect:/categoria";
+        }
+
     }
 
 

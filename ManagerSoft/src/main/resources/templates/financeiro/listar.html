@@ -2,8 +2,11 @@
 <html lang="en" xmlns:th="https://www.thymeleaf.org/">
 <head>
     <meta charset="UTF-8">
-    <title>Financerio</title>
-    <link rel="stylesheet" href="../../static/style.css" th:href="@{../../static/style.css}">
+
+    <title>Financeiro</title>
+
+    <link rel="stylesheet" href="/style.css" th:href="@{/style.css}">
+
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
@@ -68,7 +71,7 @@
                 </div>
                 <div class="col">
                     <label>Tipo:</label>
-                    <select name="tipoMovimento" class="form-control">
+                    <select name="tipoMovimento" class="form-select">
                         <option value="TODOS">Todos</option>
                         <option value="RECEITA">Receita</option>
                         <option value="DESPESA">Despesa</option>
@@ -109,7 +112,7 @@
                     <td th:text="${movimentoFinanceiro.descricao}">Teste</td>
                     <td th:text="${movimentoFinanceiro.categoria.descricao}">Combustíveis e Lubrificantes</td>
                     <td th:text="${movimentoFinanceiro.categoria.tipoCategoria.tipo}">Despesa</td>
-                    <td th:text="${movimentoFinanceiro.valor}">10,00</td>
+                    <td th:text="'R$ ' + ${#numbers.formatDecimal(movimentoFinanceiro.valor, 2, 2)}">10,00</td>
                     <td th:text="${#dates.format(movimentoFinanceiro.dataOcorrencia, 'dd/MM/yyyy')}">10/01/2023</td>
                     <td>
                         <a class="btn btn-primary" th:href="@{'financeiro/editar/' + ${movimentoFinanceiro.id}}">

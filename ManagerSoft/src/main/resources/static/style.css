@@ -4,68 +4,20 @@
 
 a.navbar-brand {
     color: white;
-    font-size: 25px;
-}
-
-.container-fluid{
-
 }
 
 .navbar-nav .nav-link {
     color: white;
-
 }
 
-.navbar-nav .nav-link:hover{
+.navbar-nav .nav-link:hover {
     color: #3498db;
 }
 
-.td-despesa {
-    background-color: #F5A9BC !important;
-    font-weight: normal;
-}
-.colum-despesa{
-    background-color: #DF013A !important;
-    font-weight: bold;
+.navbar-brand:hover {
+    color: #3498db;
 }
 
-.td-receita{
-    background-color: #CEF6E3 !important;
-    font-weight: normal;
-}
-
-.colum-receita{
-    background-color: #04B404 !important;
-    font-weight: bold;
-}
-
-.td-saldo{
-    background-color: #A9BCF5 !important;
-    font-weight: normal;
-}
-
-.colum-saldo{
-    background-color: #0404B4 !important;
-    font-weight: bold;
-}
 .custom-navbar{
-    margin: 0;
     background: radial-gradient(midnightblue, #0e0e49);
 }
-
-.container-title{
-    margin: 50px;
-}
-
-.h1-title{
-    font-size: 30px;
-}
-
-.input-data{
-    padding-left: 15px;
-}
-
-.form-categoria{
-    padding-left: 15px;
-}
-

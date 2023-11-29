@@ -20,13 +20,15 @@ public class HomeController {
     MovimentoFinanceiroService movimentoFinanceiroService;
 
     @GetMapping
-    public ModelAndView listarMovimentosFinaceirosHome(ModelMap model, RedirectAttributes redirectAttributes){
+    public ModelAndView listarMovimentosFinaceirosHome(ModelMap model){
         ModelAndView modelAndView = new ModelAndView("index");
 
-        if (model.containsAttribute("movimentoFinanceiros"))
+        if (model.containsAttribute("movimentoFinanceiros")) {
             modelAndView.addObject("movimentoFinanceiros", model.getAttribute("movimentoFinanceiros"));
-        else {
+            modelAndView.addObject("saldoDTO", model.getAttribute("saldoDTO"));
+        }else {
             modelAndView.addObject("movimentoFinanceiros", movimentoFinanceiroService.buscaUltimosDezRegistros());
+            modelAndView.addObject("saldoDTO", movimentoFinanceiroService.getSaldos());
         }
 
         return modelAndView;

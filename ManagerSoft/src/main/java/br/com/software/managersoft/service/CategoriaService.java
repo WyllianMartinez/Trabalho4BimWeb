@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Service
@@ -19,17 +20,18 @@ public class CategoriaService {
         categoriaRepository.saveAndFlush(categoria);
     }
 
-    public void edit(Categoria categoria){
+    public void edit(Categoria categoria) {
         Categoria categoriaFind = findById(categoria.getId());
         categoria.setTipoCategoria(categoriaFind.getTipoCategoria());
+        categoria.setMovimentoFinanceiroList(categoriaFind.getMovimentoFinanceiroList());
         categoriaRepository.saveAndFlush(categoria);
     }
 
-    public List<Categoria> findAll(){
+    public List<Categoria> findAll() {
         return categoriaRepository.findAllByOrderByIdAsc();
     }
 
-    public Categoria findById(Long id){
+    public Categoria findById(Long id) {
         return categoriaRepository.findById(id).get();
     }
 
@@ -57,4 +59,21 @@ public class CategoriaService {
         return msg;
     }
 
+    public List<String> validaRemocao(Long id) {
+
+        List<String> msg = new ArrayList<>();
+
+        Categoria categoria = findById(id);
+
+        if (categoria != null) {
+            if (!categoria.getMovimentoFinanceiroList().isEmpty()) {
+                msg.add("Não é possível remover a categoria pois a mesma está sendo utilizada em movimentos financeiros.");
+            }
+        } else {
+            msg.add("Categoria não encontrada");
+        }
+
+        return msg;
+
+    }
 }

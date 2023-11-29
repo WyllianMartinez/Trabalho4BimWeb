@@ -13,16 +13,16 @@ import java.util.List;
 
 public interface MovimentoFinanceiroRepository extends JpaRepository<MovimentoFinanceiro, Long> {
     @Query
-    public List<MovimentoFinanceiro> findAllByOrderByIdAsc();
+    List<MovimentoFinanceiro> findAllByOrderByIdAsc();
 
     @Query
-    public List<MovimentoFinanceiro> findTop10ByOrderByIdDesc();
+    List<MovimentoFinanceiro> findTop10ByOrderByIdDesc();
 
     @Query("SELECT mf FROM MovimentoFinanceiro mf WHERE " +
             "(:descricao IS NULL OR LOWER(mf.descricao) LIKE LOWER(CONCAT('%', :descricao, '%'))) " +
             "AND (:tipoMovimento IS NULL OR mf.categoria.tipoCategoria = :tipoMovimento) " +
             "AND mf.dataOcorrencia BETWEEN :dataInicio AND :dataFim order by mf.id ASC")
-    public List<MovimentoFinanceiro> findMovimentoFinanceiroByParamsDate(
+    List<MovimentoFinanceiro> findMovimentoFinanceiroByParamsDate(
             @Param("descricao") String descricao,
             @Param("tipoMovimento") TipoCategoriaEnum tipoMovimento,
             @Param("dataInicio") Date dataInicio,
@@ -32,11 +32,16 @@ public interface MovimentoFinanceiroRepository extends JpaRepository<MovimentoFi
     @Query("SELECT mf FROM MovimentoFinanceiro mf WHERE " +
             "(:descricao IS NULL OR LOWER(mf.descricao) LIKE LOWER(CONCAT('%', :descricao, '%'))) " +
             "AND (:tipoMovimento IS NULL OR mf.categoria.tipoCategoria = :tipoMovimento) order by mf.id ASC")
-    public List<MovimentoFinanceiro> findMovimentoFinanceiroByParams(
+    List<MovimentoFinanceiro> findMovimentoFinanceiroByParams(
             @Param("descricao") String descricao,
             @Param("tipoMovimento") TipoCategoriaEnum tipoMovimento
     );
 
 
+    @Query("SELECT COALESCE(sum(mf.valor), 0) from MovimentoFinanceiro mf where mf.categoria.tipoCategoria = 'R' group by mf.categoria.tipoCategoria")
+    Double getEntradas();
+
+    @Query("SELECT COALESCE(sum(mf.valor), 0) from MovimentoFinanceiro mf where mf.categoria.tipoCategoria = 'D' group by mf.categoria.tipoCategoria")
+    Double getSaidas();
 
 }

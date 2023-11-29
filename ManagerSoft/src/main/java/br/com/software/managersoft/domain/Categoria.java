@@ -5,6 +5,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Table(name = "CATEGORIA")
@@ -19,6 +20,10 @@ public class Categoria {
 
     @Enumerated(EnumType.STRING)
     private TipoCategoriaEnum tipoCategoria;
+
+    @OneToMany
+    @JoinColumn(name = "categoria_id")
+    private List<MovimentoFinanceiro> movimentoFinanceiroList;
 
     public Categoria() {
     }
@@ -51,5 +56,13 @@ public class Categoria {
 
     public void setTipoCategoria(TipoCategoriaEnum tipoCategoria) {
         this.tipoCategoria = tipoCategoria;
+    }
+
+    public List<MovimentoFinanceiro> getMovimentoFinanceiroList() {
+        return movimentoFinanceiroList;
+    }
+
+    public void setMovimentoFinanceiroList(List<MovimentoFinanceiro> movimentoFinanceiroList) {
+        this.movimentoFinanceiroList = movimentoFinanceiroList;
     }
 }

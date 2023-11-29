@@ -83,7 +83,6 @@ public class MovimentoController {
                 } else {
                     msg.add((objectError.getDefaultMessage()));
                 }
-
             }
 
             redirectAttributes.addFlashAttribute("msg", msg);
